@@ -44,10 +44,14 @@ final class GlideConversion
 
             $glideServer = $this->createGlideServer($inputFile, $watermarkPath);
 
+            $imageBaseName = pathinfo($inputFile, PATHINFO_BASENAME);
+
             $this->conversionResult = sys_get_temp_dir().DIRECTORY_SEPARATOR.$glideServer->makeImage(
-                    pathinfo($inputFile, PATHINFO_BASENAME),
+                    $imageBaseName,
                     $this->prepareManipulations($manipulationGroup)
                 );
+
+            $glideServer->deleteCache($imageBaseName);
         }
 
         return $this;
